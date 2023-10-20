@@ -9,4 +9,7 @@ import java.util.List;
 public interface RewardRepository extends JpaRepository<RewardEntity, Long> {
 
     List<RewardEntity> findAll();
+
+    List<RewardEntity> findAllById(Long id);
+
 }
