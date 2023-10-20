@@ -25,10 +25,5 @@ public class RewardController {
     @PostMapping()
     public RewardEntity addReward(@RequestBody RewardEntity reward) {
         return service.createNewReward(reward);
-
-
     }
-
-
-
 }

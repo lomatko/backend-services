@@ -16,7 +16,7 @@ public class RewardService {
     }
 
     public List<RewardEntity> getAllById(Long id) {
-        return repository.findAllById();
+        return repository.findAllById(id);
     }
 
     public RewardEntity createNewReward(RewardEntity entity) {
