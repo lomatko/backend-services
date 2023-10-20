@@ -2,6 +2,7 @@ package com.collabothon.lomatko.organization;
 
 import com.collabothon.lomatko.event.EventEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 
 import java.util.List;
@@ -14,6 +15,7 @@ public class OrganizationEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotBlank(message = "Name is required")
     private String name;
 
     private String description;
