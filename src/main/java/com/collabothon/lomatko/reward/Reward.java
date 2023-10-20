@@ -1,24 +1,20 @@
 package com.collabothon.lomatko.reward;
 
-import com.collabothon.lomatko.coin.Coin;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import org.springframework.data.annotation.Id;
+import jakarta.validation.constraints.NotBlank;
 
-@AllArgsConstructor
-@Table(name = "rewards")
+@Entity(name = "rewards")
 public class Reward {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(nullable = false, length = 100)
+    @NotBlank(message = "Name is required")
     private String name;
 
-    @Column(name = "description")
     private String description;
 
-    @Column(name = "price")
-    private Coin coin;
+    @NotBlank(message = "Price is required")
+    private Integer price;
 }

@@ -1,15 +1,15 @@
 package com.collabothon.lomatko.coin;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import org.springframework.data.annotation.Id;
+import jakarta.persistence.*;
 
+@Entity
 public class Coin {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(nullable = false)
     private Integer amount;
+
 }
