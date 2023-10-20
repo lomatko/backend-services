@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface OrganizationRepository extends JpaRepository<OrganizationEntity, Long> {
     List<OrganizationEntity> findAll();
+    void save(OrganizationDto dto);
+
 }
