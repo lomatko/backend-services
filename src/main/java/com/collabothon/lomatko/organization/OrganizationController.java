@@ -9,7 +9,11 @@ import java.util.List;
 @RequestMapping("/organization")
 public class OrganizationController {
 
-    private OrganizationService service;
+    private final OrganizationService service;
+
+    public OrganizationController(OrganizationService service) {
+        this.service = service;
+    }
 
     @GetMapping(value = "/getAll", produces = "application/json")
     public List<OrganizationEntity> getAll() {

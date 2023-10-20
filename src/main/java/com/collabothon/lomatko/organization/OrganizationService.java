@@ -7,7 +7,11 @@ import java.util.List;
 @Service
 public class OrganizationService {
 
-    private OrganizationRepository repository;
+    private final OrganizationRepository repository;
+
+    public OrganizationService(OrganizationRepository repository) {
+        this.repository = repository;
+    }
 
     public List<OrganizationEntity> getAll() {
         return repository.findAll();
