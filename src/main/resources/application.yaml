@@ -1,0 +1,13 @@
+spring:
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://34.118.78.69:5432/lomatko
+    username: postgres
+    password: matkajest1
+    driverClassName: org.postgresql.Driver
