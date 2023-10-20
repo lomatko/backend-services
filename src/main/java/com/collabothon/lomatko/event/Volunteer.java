@@ -1,13 +1,11 @@
-package com.collabothon.lomatko.customer;
+package com.collabothon.lomatko.event;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
-@ToString
 @Getter
 @Setter
-public class Customer {
+public class Volunteer {
     private Long id;
     private String name;
 }

@@ -29,7 +29,9 @@ public class EventEntity {
 
     private LocalDateTime endDate;
 
-    private int freeSpots;
+    private int spots;
+
+    private int coins;
 
     @Enumerated(EnumType.STRING)
     private EventStatus status;
