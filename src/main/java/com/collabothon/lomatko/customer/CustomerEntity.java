@@ -2,13 +2,19 @@ package com.collabothon.lomatko.customer;
 
 import com.collabothon.lomatko.event.EventEntity;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Entity
 @Table(name = "customer")
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
+@Builder
 public class CustomerEntity {
 
     @Id
