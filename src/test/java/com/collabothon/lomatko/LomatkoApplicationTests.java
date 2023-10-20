@@ -1,4 +1,4 @@
-package com.collabothon.lomatko.lomatko;
+package com.collabothon.lomatko;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
