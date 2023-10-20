@@ -7,7 +7,7 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   datasource:
     platform: postgres
-    url: jdbc:postgresql://34.118.78.69:5432/lomatko
+    url: jdbc:postgresql://34.116.187.18:5432/postgres
     username: postgres
-    password: matkajest1
+    password: elomatko1
     driverClassName: org.postgresql.Driver
