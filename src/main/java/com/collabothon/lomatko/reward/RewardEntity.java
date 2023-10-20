@@ -1,10 +1,16 @@
 package com.collabothon.lomatko.reward;
 
+import com.collabothon.lomatko.customer.CustomerEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Getter;
 
-@Entity(name = "rewards")
-public class Reward {
+import java.util.List;
+
+@Entity
+@Table(name = "reward")
+@Getter
+public class RewardEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -17,4 +23,7 @@ public class Reward {
 
     @NotBlank(message = "Price is required")
     private Integer price;
+
+    @ManyToMany(mappedBy = "rewards")
+    private List<CustomerEntity> volunteers;
 }

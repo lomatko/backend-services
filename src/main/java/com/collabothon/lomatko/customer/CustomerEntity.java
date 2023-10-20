@@ -1,6 +1,7 @@
 package com.collabothon.lomatko.customer;
 
 import com.collabothon.lomatko.event.EventEntity;
+import com.collabothon.lomatko.reward.RewardEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -23,4 +24,11 @@ public class CustomerEntity {
             joinColumns = @JoinColumn(name = "customer_id"),
             inverseJoinColumns = @JoinColumn(name = "event_id"))
     private List<EventEntity> events;
+
+    @ManyToMany
+    @JoinTable(
+            name = "customer_rewards",
+            joinColumns = @JoinColumn(name = "customer_id"),
+            inverseJoinColumns = @JoinColumn(name = "reward_id"))
+    private List<RewardEntity> rewards;
 }
