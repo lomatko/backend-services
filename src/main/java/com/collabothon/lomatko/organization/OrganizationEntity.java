@@ -1,6 +1,7 @@
 package com.collabothon.lomatko.organization;
 
 import com.collabothon.lomatko.event.EventEntity;
+import com.collabothon.lomatko.reward.RewardEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -20,6 +21,10 @@ public class OrganizationEntity {
 
     private String description;
 
-    @OneToMany(mappedBy = "organization")
+    @OneToMany
+    @JoinTable(
+            name = "organization_events",
+            joinColumns = @JoinColumn(name = "organization_id"),
+            inverseJoinColumns = @JoinColumn(name = "event_id"))
     private List<EventEntity> events;
 }

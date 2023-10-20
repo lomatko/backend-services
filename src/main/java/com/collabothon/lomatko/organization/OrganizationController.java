@@ -16,13 +16,11 @@ public class OrganizationController {
         return service.getAll();
     }
 
-
     @PostMapping("/add")
     public HttpStatus addOrganization(@RequestBody OrganizationDto organizationDto) {
         service.addOrganization(organizationDto);
         return HttpStatus.OK;
     }
-
 
     @GetMapping(value = "/get/{id}", produces = "application/json")
     public OrganizationEntity getOrganization (@PathVariable long id){
