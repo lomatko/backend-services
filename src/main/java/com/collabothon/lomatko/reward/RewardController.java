@@ -1,9 +1,7 @@
 package com.collabothon.lomatko.reward;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -11,16 +9,24 @@ import java.util.List;
 @RequestMapping("rewards")
 public class RewardController {
 
-    private final RewardRepository rewardRepository;
-
     @Autowired
-    public RewardController(RewardRepository rewardRepository) {
-        this.rewardRepository = rewardRepository;
+    private RewardService service;
+
+    @GetMapping()
+    public List<RewardEntity> getRewards() {
+        return service.getAll();
     }
 
-    @GetMapping(produces = "application/json")
-    public List<RewardEntity> getRewards() {
-        return rewardRepository.findAll();
+    @GetMapping("/{id}")
+    public List<RewardEntity> getRewardsByUserId(@RequestParam Long id) {
+        return service.getAllById(id);
+    }
+
+    @PostMapping()
+    public RewardEntity addReward(@RequestBody RewardEntity reward) {
+        return service.createNewReward(reward);
+
+
     }
 
 
