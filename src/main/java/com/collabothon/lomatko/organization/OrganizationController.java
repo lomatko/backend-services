@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/organization")
+@RequestMapping("/organizations")
 @RequiredArgsConstructor
 public class OrganizationController {
     private final OrganizationServiceImp service;
@@ -25,6 +25,12 @@ public class OrganizationController {
     @GetMapping(value = "/{id}", produces = "application/json")
     public OrganizationDto getOrganization(@PathVariable long id) {
         return OrganizationDtoMapper.INSTANCE.mapToOrganizationDto(service.findById(id));
+    }
+
+
+    @GetMapping(value = "/{id}/events", produces = "application/json")
+    public List<EventDto> getEvents(@PathVariable long id) {
+        return EventDtoMapper.INSTANCE.mapToEventDtos(service.getEvents(id));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
