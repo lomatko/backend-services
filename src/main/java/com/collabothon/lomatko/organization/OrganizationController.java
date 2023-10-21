@@ -27,10 +27,19 @@ public class OrganizationController {
         return OrganizationDtoMapper.INSTANCE.mapToOrganizationDto(service.findById(id));
     }
 
-
     @GetMapping(value = "/{id}/events", produces = "application/json")
     public List<EventDto> getEvents(@PathVariable long id) {
         return EventDtoMapper.INSTANCE.mapToEventDtos(service.getEvents(id));
+    }
+
+    @GetMapping(value = "/time")
+    public Long getTotalTime(){
+        return service.getTotalVolunteerTimeByBank();
+    }
+
+    @GetMapping(value = "/{id}/time")
+    public Long getOrganizationTime(@PathVariable long id){
+        return service.getTotalVolunteerTimeByOrganization(id);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -72,5 +81,4 @@ public class OrganizationController {
         service.addEvent(organizationId, event);
         return HttpStatus.NO_CONTENT;
     }
-
 }

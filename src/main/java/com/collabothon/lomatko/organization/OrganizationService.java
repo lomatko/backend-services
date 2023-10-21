@@ -19,4 +19,8 @@ public interface OrganizationService {
     void confirmEvent(Long organizationId, Long eventId, List<VolunteerDto> participation);
 
     List<Event> getEvents(Long id);
+
+    Long getTotalVolunteerTimeByBank();
+
+    Long getTotalVolunteerTimeByOrganization(Long id);
 }
