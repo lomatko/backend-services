@@ -14,4 +14,6 @@ public interface EventMapper {
     Event mapToEvent(EventEntity eventEntity);
 
     List<Event> map(List<EventEntity> eventEntities);
+
+    EventEntity mapToEventEntity(Event event);
 }

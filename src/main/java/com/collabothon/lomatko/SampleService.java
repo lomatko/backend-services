@@ -1,13 +1,12 @@
 package com.collabothon.lomatko;
 
-import com.collabothon.lomatko.customer.Customer;
 import com.collabothon.lomatko.customer.CustomerEntity;
-import com.collabothon.lomatko.customer.CustomerMapper;
 import com.collabothon.lomatko.customer.CustomerRepository;
 import com.collabothon.lomatko.event.EventEntity;
 import com.collabothon.lomatko.event.EventRepository;
 import com.collabothon.lomatko.event.EventStatus;
-import com.collabothon.lomatko.organization.*;
+import com.collabothon.lomatko.organization.OrganizationEntity;
+import com.collabothon.lomatko.organization.OrganizationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.ContextStartedEvent;
 import org.springframework.context.event.EventListener;
@@ -30,14 +29,12 @@ public class SampleService {
         System.out.println("Handling context started event.");
         loadCustomer();
         loadOrganization();
-//        loadEvent();
 
         System.out.println("Sample data inserted to DB.");
     }
 
-    private EventEntity loadEvent(OrganizationEntity organizationEntity) {
+    private EventEntity loadEvent(OrganizationEntity organizationEntity, EventStatus eventStatus) {
         CustomerEntity customer = customerRepository.findById(1L).orElseThrow(() -> new RuntimeException("there is no Customer entity"));
-//        OrganizationEntity organization = organizationRepository.findById(1L).orElseThrow(() -> new RuntimeException("there is no Organization entity"));
         EventEntity event = EventEntity.builder()
                 .volunteers(Collections.singletonList(customer))
                 .organization(organizationEntity)
@@ -48,11 +45,19 @@ public class SampleService {
                 .coins(2)
                 .endDate(LocalDateTime.now())
                 .startDate(LocalDateTime.now())
-                .status(EventStatus.NEW)
-                .id(11L)
+                .status(eventStatus)
                 .build();
         event = eventRepository.saveAndFlush(event);
-        customerRepository.saveAndFlush(customer.toBuilder().events(Collections.singletonList(event)).build());
+
+        List<EventEntity> events = customer.getEvents();
+        if (events == null) {
+            events = new ArrayList<>();
+        } else {
+            events = new ArrayList<>(events);
+        }
+        events.add(event);
+
+        customerRepository.saveAndFlush(customer.toBuilder().events(events).build());
         return event;
     }
 
@@ -61,6 +66,7 @@ public class SampleService {
                 .id(1L)
                 .name("sample")
                 .coins(100)
+                .events(new ArrayList<>())
                 .build();
 
         customerRepository.save(customerEntity);
@@ -68,12 +74,12 @@ public class SampleService {
     }
 
     private void loadOrganization() {
-//        EventEntity event = eventRepository.findById(1L).orElseThrow(() -> new RuntimeException("nie ma takiego entity"));
         OrganizationEntity organizationEntity = OrganizationEntity.builder()
                 .name("charity_name")
                 .description("description_for_charity")
                 .build();
         organizationEntity = organizationRepository.saveAndFlush(organizationEntity);
-        EventEntity event = loadEvent(organizationEntity);
+        loadEvent(organizationEntity, EventStatus.NEW);
+        loadEvent(organizationEntity, EventStatus.COMPLETED);
     }
 }
