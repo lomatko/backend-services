@@ -26,4 +26,9 @@ public class RewardController {
     public RewardEntity addReward(@RequestBody RewardEntity reward) {
         return service.createNewReward(reward);
     }
+
+    @DeleteMapping("/{id}")
+    public void deleteReward(@PathVariable Long id) {
+        service.deleteRewardById(id);
+    }
 }
