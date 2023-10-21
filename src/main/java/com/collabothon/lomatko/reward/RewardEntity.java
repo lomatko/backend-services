@@ -17,12 +17,10 @@ import java.util.List;
 @Getter
 @Builder
 public class RewardEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotBlank(message = "Name is required")
     private String name;
 
     private String description;
