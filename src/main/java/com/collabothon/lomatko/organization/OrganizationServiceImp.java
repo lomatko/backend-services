@@ -57,10 +57,7 @@ public class OrganizationServiceImp implements OrganizationService {
             throw new RuntimeException("Event entity cannot be null");
         }
 
-        //change event volunteers to participation and confirmed events
         confirmedParticipantsAndCompleteTheEvent(participation, event);
-
-        // add coins to participation
         addCoinToParticipants(participation, event.getCoins());
     }
 
@@ -71,6 +68,36 @@ public class OrganizationServiceImp implements OrganizationService {
             return EventMapper.INSTANCE.map(entity.getEvents());
         }
         return null;
+    }
+
+    @Override
+    public Long getTotalVolunteerTimeByBank() {
+        long total = 0;
+        List<OrganizationEntity> entities = repository.findAll();
+        for(OrganizationEntity entity : entities) {
+            total += getTimeByOrganization(entity);
+        }
+        return total;
+    }
+
+    @Override
+    public Long getTotalVolunteerTimeByOrganization(Long id) {
+        long total = 0;
+        OrganizationEntity entity = repository.findById(id).orElse(null);
+        if(entity != null) {
+            total += getTimeByOrganization(entity);
+        }
+        return total;
+    }
+
+    private Long getTimeByOrganization(OrganizationEntity entity) {
+        long total = 0;
+        for(EventEntity event : entity.getEvents()) {
+            if(event.getStatus() == EventStatus.COMPLETED){
+                total += (long) event.getVolunteers().size() * event.getCoins();
+            }
+        }
+        return total;
     }
 
     private void addCoinToParticipants(List<VolunteerDto> participation, int amount) {
