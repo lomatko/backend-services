@@ -10,4 +10,6 @@ public interface EventService {
     void createEvent(OrganizationEntity organizationEntity, Event event);
 
     void joinEvent(Long customerId, Long eventId);
+
+    void leaveEvent(Long customerId, Long eventId);
 }

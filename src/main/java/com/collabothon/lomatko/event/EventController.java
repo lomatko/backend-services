@@ -23,4 +23,10 @@ public class EventController {
         eventService.joinEvent(customerId, eventId);
         return HttpStatus.NO_CONTENT;
     }
+
+    @DeleteMapping(value = "/{eventId}/{customerId}")
+    public HttpStatus leaveEvent(@PathVariable Long eventId, @PathVariable Long customerId) {
+        eventService.leaveEvent(customerId, eventId);
+        return HttpStatus.NO_CONTENT;
+    }
 }
