@@ -26,7 +26,7 @@ public class CustomerEntity {
 
     private int coins;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "customer_events",
             joinColumns = @JoinColumn(name = "customer_id"),

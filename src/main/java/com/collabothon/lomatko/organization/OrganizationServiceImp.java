@@ -1,5 +1,7 @@
 package com.collabothon.lomatko.organization;
 
+import com.collabothon.lomatko.event.Event;
+import com.collabothon.lomatko.event.EventService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +12,8 @@ import java.util.List;
 public class OrganizationServiceImp implements OrganizationService{
 
     private final OrganizationRepository repository;
+    private final EventService eventService;
+
 
     @Override
     public List<Organization> getAll() {
@@ -33,5 +37,11 @@ public class OrganizationServiceImp implements OrganizationService{
     @Override
     public void deleteOrganization(Long id) {
         repository.deleteById(id);
+    }
+
+    @Override
+    public void addEvent(Long organizationId, Event event) {
+        OrganizationEntity organizationEntity = repository.findById(organizationId).orElseThrow(() -> new RuntimeException("Can't add event to non existing organization with id: " + organizationId));
+        eventService.createEvent(organizationEntity, event);
     }
 }

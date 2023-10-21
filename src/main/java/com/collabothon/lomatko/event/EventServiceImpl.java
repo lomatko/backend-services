@@ -1,5 +1,6 @@
 package com.collabothon.lomatko.event;
 
+import com.collabothon.lomatko.organization.OrganizationEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,5 +14,14 @@ class EventServiceImpl implements EventService {
     @Override
     public List<Event> getAllEvents() {
         return EventMapper.INSTANCE.map(eventRepository.findAll());
+    }
+
+    @Override
+    public void createEvent(OrganizationEntity organizationEntity, Event event) {
+        EventEntity eventEntity = EventMapper.INSTANCE.mapToEventEntity(event).toBuilder()
+                .organization(organizationEntity)
+                .status(EventStatus.NEW)
+                .build();
+        eventRepository.saveAndFlush(eventEntity);
     }
 }

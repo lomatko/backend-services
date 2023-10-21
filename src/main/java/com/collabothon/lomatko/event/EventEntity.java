@@ -16,7 +16,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@Builder(toBuilder = true)
 public class EventEntity {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -39,7 +39,7 @@ public class EventEntity {
     @Enumerated(EnumType.STRING)
     private EventStatus status;
 
-    @ManyToMany(mappedBy = "events")
+    @ManyToMany(mappedBy = "events", fetch = FetchType.EAGER)
     private List<CustomerEntity> volunteers;
 
     @ManyToOne

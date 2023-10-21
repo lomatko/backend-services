@@ -1,5 +1,8 @@
 package com.collabothon.lomatko.organization;
 
+import com.collabothon.lomatko.event.Event;
+import com.collabothon.lomatko.event.EventDto;
+import com.collabothon.lomatko.event.EventDtoMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -11,9 +14,7 @@ import java.util.List;
 @RequestMapping("/organization")
 @RequiredArgsConstructor
 public class OrganizationController {
-
     private final OrganizationServiceImp service;
-    private final OrganizationRepository repository;
 
     @GetMapping(produces = "application/json")
     public List<OrganizationDto> getAll() {
@@ -43,6 +44,13 @@ public class OrganizationController {
             return HttpStatus.BAD_REQUEST;
         }
         return HttpStatus.OK;
+    }
+
+    @PostMapping(value = "/{organizationId}/event", consumes = MediaType.APPLICATION_JSON_VALUE, produces = "application/json")
+    public HttpStatus addEvent(@PathVariable Long organizationId, @RequestBody EventDto eventDto) {
+        Event event = EventDtoMapper.INSTANCE.mapToEvent(eventDto);
+        service.addEvent(organizationId, event);
+        return HttpStatus.NO_CONTENT;
     }
 
 }
