@@ -3,7 +3,14 @@ steps:
     name: maven:3.8.3-jdk-17
     entrypoint: mvn
     args: ['package','-Dmaven.test.skip=true']
+  - id: 'Docker build'
+    name: gcr.io/cloud-builders/docker
+    args: ['build', '-t', 'europe-west1-docker.pkg.dev/lomatko/matka-backend/backend:latest', '--build-arg=JAR_FILE=target/lomatko-0.0.1-SNAPSHOT.jar', '.']
+  - id: 'Docker push'
+    name: gcr.io/cloud-builders/docker
+    args: ['push', 'europe-west1-docker.pkg.dev/lomatko/matka-backend/backend:latest']
+images: ['europe-west1-docker.pkg.dev/lomatko/matka-backend/backend:latest']
 options:
   logging: CLOUD_LOGGING_ONLY
   pool:
-    name: lomatko
+    name: projects/lomatko/locations/europe-central2/workerPools/lomatko
