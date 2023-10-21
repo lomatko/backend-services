@@ -26,6 +26,6 @@ public class OrganizationEntity {
 
     private String description;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<EventEntity> events;
 }
