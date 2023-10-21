@@ -6,4 +6,5 @@ public interface OrganizationService {
     List<Organization> getAll();
     Organization findById(Long id);
     void addOrganization(OrganizationDto organizationDto);
+    void deleteOrganization(Long id);
 }

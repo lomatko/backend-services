@@ -29,4 +29,9 @@ public class OrganizationServiceImp implements OrganizationService{
                 .build();
         repository.save(entity);
     }
+
+    @Override
+    public void deleteOrganization(Long id) {
+        repository.deleteById(id);
+    }
 }
