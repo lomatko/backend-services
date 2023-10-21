@@ -16,7 +16,7 @@ public class EventDto {
     private LocalDateTime endDate;
     private EventStatus status;
     private int coins;
-
+    private String location;
     private int participants;
     private List<VolunteerDto> volunteers;
 }

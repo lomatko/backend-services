@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@Builder
+@Builder(toBuilder = true)
 public class CustomerEntity {
 
     @Id
@@ -23,6 +23,8 @@ public class CustomerEntity {
     private Long id;
 
     private String name;
+
+    private int coins;
 
     @ManyToMany
     @JoinTable(

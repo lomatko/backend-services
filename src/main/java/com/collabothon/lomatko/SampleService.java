@@ -7,29 +7,30 @@ import com.collabothon.lomatko.customer.CustomerRepository;
 import com.collabothon.lomatko.event.EventEntity;
 import com.collabothon.lomatko.event.EventRepository;
 import com.collabothon.lomatko.event.EventStatus;
-import com.collabothon.lomatko.reward.RewardEntity;
-import com.collabothon.lomatko.reward.RewardRepository;
+import com.collabothon.lomatko.organization.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.ContextStartedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class SampleService {
     private final CustomerRepository customerRepository;
     private final EventRepository eventRepository;
-    private final RewardRepository rewardRepository;
+    private final OrganizationRepository organizationRepository;
 
     @EventListener
     public void handleContextStart(ContextStartedEvent cse) {
         System.out.println("Handling context started event.");
         loadCustomer();
         loadEvent();
-        loadReward();
+        loadOrganization();
 
         CustomerEntity entityLoaded = customerRepository.findById(1L).orElseThrow(() -> new RuntimeException("nie ma takiego entity"));
         Customer customer = CustomerMapper.INSTANCE.mapToCustomer(entityLoaded);
@@ -42,6 +43,7 @@ public class SampleService {
                 .volunteers(Collections.singletonList(customer))
                 .title("event title")
                 .description("event description")
+                .location("Łódź, Mazurska 12")
                 .spots(20)
                 .coins(2)
                 .endDate(LocalDateTime.now())
@@ -49,44 +51,29 @@ public class SampleService {
                 .status(EventStatus.NEW)
                 .id(11L)
                 .build();
-        eventRepository.saveAndFlush(event);
+        event = eventRepository.saveAndFlush(event);
+        customerRepository.saveAndFlush(customer.toBuilder().events(Collections.singletonList(event)).build());
     }
 
     private void loadCustomer() {
         CustomerEntity customerEntity = CustomerEntity.builder()
                 .id(1L)
                 .name("sample")
+                .coins(100)
                 .build();
 
         customerRepository.save(customerEntity);
         customerRepository.flush();
     }
 
-    private void loadReward() {
-        RewardEntity rewardEntity1 = RewardEntity.builder()
-                .id(1L)
-                .name("reward #1")
-                .description("opis 1")
-                .price(22)
+    private void loadOrganization() {
+        EventEntity event = eventRepository.findById(1L).orElseThrow(() -> new RuntimeException("nie ma takiego entity"));
+        OrganizationEntity organizationEntity = OrganizationEntity.builder()
+                .name("charity_name")
+                .description("description_for_charity")
+                .events(Collections.singletonList(event))
                 .build();
+        organizationRepository.saveAndFlush(organizationEntity);
 
-        RewardEntity rewardEntity2 = RewardEntity.builder()
-                .id(2L)
-                .name("reward #2")
-                .description("opis 2")
-                .price(5)
-                .build();
-
-        RewardEntity rewardEntity3 = RewardEntity.builder()
-                .id(3L)
-                .name("reward #3")
-                .description("opis 3")
-                .price(30)
-                .build();
-
-        rewardRepository.save(rewardEntity1);
-        rewardRepository.save(rewardEntity2);
-        rewardRepository.save(rewardEntity3);
-        customerRepository.flush();
     }
 }
