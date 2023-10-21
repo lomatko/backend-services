@@ -14,7 +14,8 @@ public class RewardController {
 
     @GetMapping()
     public List<Reward> getRewards() {
-        return RewardMapper.INSTANCE.mapToRewards(service.getAll());
+        List<RewardEntity> rewards = service.getAll();
+        return RewardMapper.INSTANCE.mapToRewards(rewards);
     }
 
     @GetMapping("/{id}")

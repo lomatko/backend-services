@@ -1,7 +1,11 @@
 package com.collabothon.lomatko.reward;
 
-public class Reward {
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
+public class Reward {
     private Long id;
     private String name;
     private String description;
