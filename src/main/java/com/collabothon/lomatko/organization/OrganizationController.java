@@ -60,7 +60,7 @@ public class OrganizationController {
         return HttpStatus.OK;
     }
 
-    @PostMapping(value = "/{organizationId}/event", consumes = MediaType.APPLICATION_JSON_VALUE, produces = "application/json")
+    @PostMapping(value = "/{organizationId}/event", consumes = MediaType.APPLICATION_JSON_VALUE)
     public HttpStatus addEvent(@PathVariable Long organizationId, @RequestBody EventDto eventDto) {
         Event event = EventDtoMapper.INSTANCE.mapToEvent(eventDto);
         service.addEvent(organizationId, event);
