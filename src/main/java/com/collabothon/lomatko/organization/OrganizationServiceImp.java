@@ -64,6 +64,15 @@ public class OrganizationServiceImp implements OrganizationService {
         addCoinToParticipants(participation, event.getCoins());
     }
 
+    @Override
+    public List<Event> getEvents(Long id) {
+        OrganizationEntity entity = repository.findById(id).orElse(null);
+        if(entity != null) {
+            return EventMapper.INSTANCE.map(entity.getEvents());
+        }
+        return null;
+    }
+
     private void addCoinToParticipants(List<VolunteerDto> participation, int amount) {
         for (VolunteerDto volunteer : participation) {
             customerRepository.findById(volunteer.getId()).ifPresent(entityBeforeUpdate -> customerRepository.saveAndFlush(CustomerEntity.builder()
@@ -97,5 +106,4 @@ public class OrganizationServiceImp implements OrganizationService {
                 .organization(event.getOrganization())
                 .build());
     }
-
 }
