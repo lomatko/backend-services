@@ -1,9 +1,9 @@
 package com.collabothon.lomatko.organization;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,17 +20,20 @@ public class OrganizationController {
         return OrganizationDtoMapper.INSTANCE.map(service.getAll());
     }
 
+    @GetMapping(value = "/get/{id}", produces = "application/json")
+    public OrganizationDto getOrganization(@PathVariable long id) {
+        return OrganizationDtoMapper.INSTANCE.mapToOrganizationDto(service.findById(id));
+    }
 
-//
-//    @PostMapping("/add")
-//    public HttpStatus addOrganization(@RequestBody OrganizationEntity organizationEntity) {
-//        service.addOrganization(organizationEntity);
-//        return HttpStatus.OK;
-//    }
-//
-//    @GetMapping(value = "/get/{id}", produces = "application/json")
-//    public OrganizationEntity getOrganization(@PathVariable long id) {
-//        return service.findById(id);
-//    }
+    @PostMapping(value = "/add", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public HttpStatus addOrganization(@RequestBody OrganizationDto organizationDto) {
+        try {
+            service.addOrganization(organizationDto);
+        } catch (Exception e) {
+            return HttpStatus.BAD_REQUEST;
+        }
+        return HttpStatus.OK;
+    }
+
 
 }
