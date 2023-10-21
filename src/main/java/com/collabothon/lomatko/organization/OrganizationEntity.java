@@ -26,10 +26,6 @@ public class OrganizationEntity {
 
     private String description;
 
-    @OneToMany
-    @JoinTable(
-            name = "organization_events",
-            joinColumns = @JoinColumn(name = "organization_id"),
-            inverseJoinColumns = @JoinColumn(name = "event_id"))
+    @OneToMany(cascade = CascadeType.ALL)
     private List<EventEntity> events;
 }

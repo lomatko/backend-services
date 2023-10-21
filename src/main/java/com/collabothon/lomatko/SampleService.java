@@ -29,16 +29,18 @@ public class SampleService {
     public void handleContextStart(ContextStartedEvent cse) {
         System.out.println("Handling context started event.");
         loadCustomer();
-        loadEvent();
         loadOrganization();
+//        loadEvent();
 
         System.out.println("Sample data inserted to DB.");
     }
 
-    private void loadEvent() {
-        CustomerEntity customer = customerRepository.findById(1L).orElseThrow(() -> new RuntimeException("nie ma takiego entity"));
+    private EventEntity loadEvent(OrganizationEntity organizationEntity) {
+        CustomerEntity customer = customerRepository.findById(1L).orElseThrow(() -> new RuntimeException("there is no Customer entity"));
+//        OrganizationEntity organization = organizationRepository.findById(1L).orElseThrow(() -> new RuntimeException("there is no Organization entity"));
         EventEntity event = EventEntity.builder()
                 .volunteers(Collections.singletonList(customer))
+                .organization(organizationEntity)
                 .title("event title")
                 .description("event description")
                 .location("Łódź, Mazurska 12")
@@ -51,6 +53,7 @@ public class SampleService {
                 .build();
         event = eventRepository.saveAndFlush(event);
         customerRepository.saveAndFlush(customer.toBuilder().events(Collections.singletonList(event)).build());
+        return event;
     }
 
     private void loadCustomer() {
@@ -65,13 +68,12 @@ public class SampleService {
     }
 
     private void loadOrganization() {
-        EventEntity event = eventRepository.findById(1L).orElseThrow(() -> new RuntimeException("nie ma takiego entity"));
+//        EventEntity event = eventRepository.findById(1L).orElseThrow(() -> new RuntimeException("nie ma takiego entity"));
         OrganizationEntity organizationEntity = OrganizationEntity.builder()
                 .name("charity_name")
                 .description("description_for_charity")
-                .events(Collections.singletonList(event))
                 .build();
-        organizationRepository.saveAndFlush(organizationEntity);
-
+        organizationEntity = organizationRepository.saveAndFlush(organizationEntity);
+        EventEntity event = loadEvent(organizationEntity);
     }
 }
