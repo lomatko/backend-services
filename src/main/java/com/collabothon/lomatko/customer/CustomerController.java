@@ -19,4 +19,10 @@ public class CustomerController {
         return CustomerDtoMapper.INSTANCE.mapToCustomerDto(customerService.findCustomerById(customerId));
     }
 
+    @GetMapping(value = "/{customerId}/events", produces = "application/json")
+    public List<CustomerEventDto> getCustomerEvents(@PathVariable Long customerId) {
+        Customer customer = customerService.findCustomerById(customerId);
+        return CustomerEventDtoMapper.INSTANCE.mapTocCustomerEventDtos(customer.getEvents());
+    }
+
 }
