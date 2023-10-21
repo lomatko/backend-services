@@ -13,5 +13,5 @@ public interface RewardRepository extends JpaRepository<RewardEntity, Long> {
 
     List<RewardEntity> findAllById(Long id);
 
-    Optional<RewardEntity> findFirstById(Long id);
+    Optional<RewardEntity> findById(Long id);
 }
