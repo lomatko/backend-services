@@ -13,6 +13,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 
 @Service
@@ -45,7 +46,8 @@ public class SampleService {
                 .status(EventStatus.NEW)
                 .id(11L)
                 .build();
-        eventRepository.saveAndFlush(event);
+        event = eventRepository.saveAndFlush(event);
+        customerRepository.saveAndFlush(customer.toBuilder().events(Collections.singletonList(event)).build());
     }
 
     private void loadCustomer() {
