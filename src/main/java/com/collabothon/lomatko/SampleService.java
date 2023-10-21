@@ -27,7 +27,7 @@ public class SampleService {
     private final OrganizationRepository organizationRepository;
     private final RewardRepository rewardRepository;
 
-    @EventListener
+//    @EventListener
     public void handleContextStart(ContextStartedEvent cse) {
         System.out.println("Handling context started event.");
         loadCustomer();
