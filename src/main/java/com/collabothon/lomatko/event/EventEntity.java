@@ -1,6 +1,7 @@
 package com.collabothon.lomatko.event;
 
 import com.collabothon.lomatko.customer.CustomerEntity;
+import com.collabothon.lomatko.organization.OrganizationEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -40,4 +41,8 @@ public class EventEntity {
 
     @ManyToMany(mappedBy = "events")
     private List<CustomerEntity> volunteers;
+
+    @ManyToOne
+    @JoinColumn(name = "organization_id")
+    private OrganizationEntity organization;
 }
