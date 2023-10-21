@@ -23,17 +23,18 @@ class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Integer addRewardToCustomer(Long customerId, Long rewardId) {
-        Optional<CustomerEntity> customer = customerRepository.findById(customerId);
+        Optional<CustomerEntity> customerEntity = customerRepository.findById(customerId);
         Optional<RewardEntity> reward = rewardRepository.findFirstById(rewardId);
+        CustomerEntity customer = customerEntity.get();
         int rewardPrice = reward.get().getPrice();
-        int customerCoins = customer.get().getCoins();
+        int customerCoins = customer.getCoins();
 
-        if (customerCoins >= rewardPrice) {
-            customer.get().getRewards().add(reward.get());
-            customerRepository.save(customer.get());
+        if (customerCoins < rewardPrice) {
+            throw new IllegalArgumentException();
+        } else {
+            customer.getRewards().add(reward.get());
+            customerRepository.save(customer);
             return customerCoins - rewardPrice;
         }
-
-        return customerCoins;
     }
 }

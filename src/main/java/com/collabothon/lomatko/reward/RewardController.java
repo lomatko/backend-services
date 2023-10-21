@@ -13,18 +13,18 @@ public class RewardController {
     private RewardService service;
 
     @GetMapping()
-    public List<RewardEntity> getRewards() {
-        return service.getAll();
+    public List<Reward> getRewards() {
+        return RewardMapper.INSTANCE.mapToRewards(service.getAll());
     }
 
     @GetMapping("/{id}")
-    public List<RewardEntity> getRewardsByUserId(@RequestParam Long id) {
-        return service.getAllById(id);
+    public List<Reward> getRewardsByUserId(@RequestParam Long id) {
+        return RewardMapper.INSTANCE.mapToRewards(service.getAllById(id));
     }
 
     @PostMapping()
-    public RewardEntity addReward(@RequestBody RewardEntity reward) {
-        return service.createNewReward(reward);
+    public Reward addReward(@RequestBody RewardEntity reward) {
+        return RewardMapper.INSTANCE.mapToReward(service.createNewReward(reward));
     }
 
     @DeleteMapping("/{id}")
