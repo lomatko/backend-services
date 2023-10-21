@@ -32,9 +32,7 @@ public class SampleService {
         loadEvent();
         loadOrganization();
 
-        CustomerEntity entityLoaded = customerRepository.findById(1L).orElseThrow(() -> new RuntimeException("nie ma takiego entity"));
-        Customer customer = CustomerMapper.INSTANCE.mapToCustomer(entityLoaded);
-        System.out.printf("Loaded customer: " + customer);
+        System.out.println("Sample data inserted to DB.");
     }
 
     private void loadEvent() {
