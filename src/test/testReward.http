@@ -1,0 +1,6 @@
+POST http://localhost:8080/rewards
+Content-Type: application/json
+
+{"id":11,"name":"reward #1","description":"opis 1","price":220}
+
+###

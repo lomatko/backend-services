@@ -61,6 +61,7 @@ public class SampleService {
                 .name("sample")
                 .coins(100)
                 .build();
+
         customerRepository.save(customerEntity);
         customerRepository.flush();
     }
