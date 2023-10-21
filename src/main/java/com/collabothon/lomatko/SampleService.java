@@ -34,11 +34,6 @@ public class SampleService {
         CustomerEntity entityLoaded = customerRepository.findById(1L).orElseThrow(() -> new RuntimeException("nie ma takiego entity"));
         Customer customer = CustomerMapper.INSTANCE.mapToCustomer(entityLoaded);
         System.out.printf("Loaded customer: " + customer);
-
-//        List<OrganizationEntity> organizationEntity = organizationRepository.findAll();
-//        List<Organization> organizations = OrganizationMapper.INSTANCE.map(organizationEntity);
-//        List<OrganizationDto> organizationDtos = OrganizationDtoMapper.INSTANCE.map(organizations);
-//        System.out.println("...............");
     }
 
     private void loadEvent() {
