@@ -7,6 +7,8 @@ import com.collabothon.lomatko.event.EventRepository;
 import com.collabothon.lomatko.event.EventStatus;
 import com.collabothon.lomatko.organization.OrganizationEntity;
 import com.collabothon.lomatko.organization.OrganizationRepository;
+import com.collabothon.lomatko.reward.RewardEntity;
+import com.collabothon.lomatko.reward.RewardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.ContextStartedEvent;
 import org.springframework.context.event.EventListener;
@@ -23,12 +25,14 @@ public class SampleService {
     private final CustomerRepository customerRepository;
     private final EventRepository eventRepository;
     private final OrganizationRepository organizationRepository;
+    private final RewardRepository rewardRepository;
 
     @EventListener
     public void handleContextStart(ContextStartedEvent cse) {
         System.out.println("Handling context started event.");
         loadCustomer();
         loadOrganization();
+        loadRewards();
 
         System.out.println("Sample data inserted to DB.");
     }
@@ -81,5 +85,30 @@ public class SampleService {
         organizationEntity = organizationRepository.saveAndFlush(organizationEntity);
         loadEvent(organizationEntity, EventStatus.NEW);
         loadEvent(organizationEntity, EventStatus.COMPLETED);
+    }
+
+    private void loadRewards() {
+        RewardEntity rewardEntity1 = RewardEntity.builder()
+                .name("reward 1")
+                .description("opis 1")
+                .price(11)
+                .build();
+
+        RewardEntity rewardEntity2 = RewardEntity.builder()
+                .name("reward 2")
+                .description("opis 2")
+                .price(100)
+                .build();
+
+        RewardEntity rewardEntity3 = RewardEntity.builder()
+                .name("reward 3")
+                .description("opis 3")
+                .price(111)
+                .build();
+
+        rewardRepository.save(rewardEntity1);
+        rewardRepository.save(rewardEntity2);
+        rewardRepository.save(rewardEntity3);
+        rewardRepository.flush();
     }
 }
