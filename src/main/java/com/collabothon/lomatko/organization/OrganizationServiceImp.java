@@ -16,17 +16,22 @@ public class OrganizationServiceImp implements OrganizationService{
         return OrganizationMapper.INSTANCE.map(repository.findAll());
     }
 
+    @Override
+    public Organization findById(Long id) {
+        return OrganizationMapper.INSTANCE.mapToOrganization(repository.findById(id).orElse(null));
+    }
 
-//    public List<OrganizationDto> getAll() {
-//
-//    }
+    @Override
+    public void addOrganization(OrganizationDto organizationDto) {
+        OrganizationEntity entity = OrganizationEntity.builder()
+                .name(organizationDto.getName())
+                .description(organizationDto.getDescription())
+                .build();
+        repository.save(entity);
+    }
 
-//    public void addOrganization(OrganizationEntity organizationEntity) {
-//        repository.save(organizationEntity);
-//    }
-//
-//    public OrganizationEntity findById(long id) {
-//        return repository.findById(id).orElse(null);
-//    }
-
+    @Override
+    public void deleteOrganization(Long id) {
+        repository.deleteById(id);
+    }
 }
