@@ -1,6 +1,6 @@
 package com.collabothon.lomatko.customer;
 
-import com.collabothon.lomatko.reward.RewardEntity;
+import com.collabothon.lomatko.reward.Reward;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -28,9 +28,8 @@ public class CustomerController {
     }
 
     @GetMapping(value = "/{customerId}/rewards", produces = "application/json")
-    public List<RewardEntity> getCustomerRewards(@PathVariable Long customerId) {
-        Customer customer = customerService.findCustomerById(customerId);
-        return customer.getRewards();
+    public List<Reward> getCustomerRewards(@PathVariable Long customerId) {
+        return customerService.findCustomerById(customerId).getRewards();
     }
 
     @PostMapping(value = "/{customerId}/rewards/{rewardId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = "application/json")

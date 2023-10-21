@@ -1,6 +1,6 @@
 package com.collabothon.lomatko.customer;
 
-import com.collabothon.lomatko.reward.RewardEntity;
+import com.collabothon.lomatko.reward.Reward;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -15,5 +15,5 @@ public class Customer {
     private String name;
     private int coins;
     private List<CustomerEvent> events;
-    private List<RewardEntity> rewards;
+    private List<Reward> rewards;
 }
