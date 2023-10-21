@@ -15,7 +15,7 @@ public class OrganizationController {
     private final OrganizationServiceImp service;
     private final OrganizationRepository repository;
 
-    @GetMapping(value = "/get", produces = "application/json")
+    @GetMapping(produces = "application/json")
     public List<OrganizationDto> getAll() {
         return OrganizationDtoMapper.INSTANCE.map(service.getAll());
     }
@@ -25,7 +25,7 @@ public class OrganizationController {
         return OrganizationDtoMapper.INSTANCE.mapToOrganizationDto(service.findById(id));
     }
 
-    @PostMapping(value = "/add", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public HttpStatus addOrganization(@RequestBody OrganizationDto organizationDto) {
         try {
             service.addOrganization(organizationDto);
