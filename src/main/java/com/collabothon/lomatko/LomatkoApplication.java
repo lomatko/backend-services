@@ -23,7 +23,11 @@ public class LomatkoApplication {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**")
-						.allowedOrigins("http://localhost:3000", "https://www.collabcoin.org")
+						.allowedOrigins("http://localhost:3000",
+								"https://www.collabcoin.org",
+								"https://frontend-3u6yq4mi5q-ew.a.run.app/",
+								"https://34.36.55.157"
+								)
 						.allowedMethods("GET", "POST", "PUT", "DELETE");
 			}
 		};
