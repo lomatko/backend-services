@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -23,17 +22,18 @@ class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Integer addRewardToCustomer(Long customerId, Long rewardId) {
-        Optional<CustomerEntity> customerEntity = customerRepository.findById(customerId);
-        Optional<RewardEntity> reward = rewardRepository.findFirstById(rewardId);
-        CustomerEntity customer = customerEntity.get();
-        int rewardPrice = reward.get().getPrice();
+        CustomerEntity customer = customerRepository.findById(customerId).orElseThrow(() -> new RuntimeException("no customer with id"));
+        RewardEntity reward = rewardRepository.findById(rewardId).orElseThrow(() -> new RuntimeException("no reward with id"));
+        int rewardPrice = reward.getPrice();
         int customerCoins = customer.getCoins();
 
         if (customerCoins < rewardPrice) {
             throw new IllegalArgumentException();
         } else {
-            customer.getRewards().add(reward.get());
+            customer.getRewards().add(reward);
+            customer.setCoins(customerCoins - rewardPrice);
             customerRepository.save(customer);
+            customerRepository.flush();
             return customerCoins - rewardPrice;
         }
     }
