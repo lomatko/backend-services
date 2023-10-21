@@ -12,7 +12,7 @@ public class RewardService {
     private RewardRepository repository;
 
     public List<RewardEntity> getAll() {
-        return repository.findAll();
+         return repository.findAll();
     }
 
     public List<RewardEntity> getAllById(Long id) {
@@ -22,5 +22,9 @@ public class RewardService {
     public RewardEntity createNewReward(RewardEntity entity) {
         repository.save(entity);
         return entity;
+    }
+
+    public void deleteRewardById(Long id) {
+        repository.deleteById(id);
     }
 }
