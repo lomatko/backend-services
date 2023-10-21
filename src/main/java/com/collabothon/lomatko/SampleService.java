@@ -7,6 +7,7 @@ import com.collabothon.lomatko.customer.CustomerRepository;
 import com.collabothon.lomatko.event.EventEntity;
 import com.collabothon.lomatko.event.EventRepository;
 import com.collabothon.lomatko.event.EventStatus;
+import com.collabothon.lomatko.organization.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.ContextStartedEvent;
 import org.springframework.context.event.EventListener;
@@ -14,22 +15,30 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class SampleService {
     private final CustomerRepository customerRepository;
     private final EventRepository eventRepository;
+    private final OrganizationRepository organizationRepository;
 
     @EventListener
     public void handleContextStart(ContextStartedEvent cse) {
         System.out.println("Handling context started event.");
         loadCustomer();
         loadEvent();
+        loadOrganization();
 
         CustomerEntity entityLoaded = customerRepository.findById(1L).orElseThrow(() -> new RuntimeException("nie ma takiego entity"));
         Customer customer = CustomerMapper.INSTANCE.mapToCustomer(entityLoaded);
         System.out.printf("Loaded customer: " + customer);
+
+//        List<OrganizationEntity> organizationEntity = organizationRepository.findAll();
+//        List<Organization> organizations = OrganizationMapper.INSTANCE.map(organizationEntity);
+//        List<OrganizationDto> organizationDtos = OrganizationDtoMapper.INSTANCE.map(organizations);
+//        System.out.println("...............");
     }
 
     private void loadEvent() {
@@ -53,8 +62,18 @@ public class SampleService {
                 .id(1L)
                 .name("sample")
                 .build();
-
         customerRepository.save(customerEntity);
         customerRepository.flush();
+    }
+
+    private void loadOrganization() {
+        EventEntity event = eventRepository.findById(1L).orElseThrow(() -> new RuntimeException("nie ma takiego entity"));
+        OrganizationEntity organizationEntity = OrganizationEntity.builder()
+                .name("charity_name")
+                .description("description_for_charity")
+                .events(Collections.singletonList(event))
+                .build();
+        organizationRepository.saveAndFlush(organizationEntity);
+
     }
 }
