@@ -20,4 +20,5 @@ public class Event {
     private EventStatus status;
     private int coins;
     private List<Volunteer> volunteers;
+    private String location;
 }

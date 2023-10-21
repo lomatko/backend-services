@@ -24,6 +24,8 @@ public class CustomerEntity {
 
     private String name;
 
+    private int coins;
+
     @ManyToMany
     @JoinTable(
             name = "customer_events",

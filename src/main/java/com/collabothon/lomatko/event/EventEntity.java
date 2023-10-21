@@ -33,6 +33,8 @@ public class EventEntity {
 
     private int coins;
 
+    private String location;
+
     @Enumerated(EnumType.STRING)
     private EventStatus status;
 

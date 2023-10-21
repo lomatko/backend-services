@@ -43,6 +43,7 @@ public class SampleService {
                 .volunteers(Collections.singletonList(customer))
                 .title("event title")
                 .description("event description")
+                .location("Łódź, Mazurska 12")
                 .spots(20)
                 .coins(2)
                 .endDate(LocalDateTime.now())
@@ -58,6 +59,7 @@ public class SampleService {
         CustomerEntity customerEntity = CustomerEntity.builder()
                 .id(1L)
                 .name("sample")
+                .coins(100)
                 .build();
         customerRepository.save(customerEntity);
         customerRepository.flush();
