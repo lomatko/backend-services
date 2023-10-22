@@ -1,6 +1,5 @@
 package com.collabothon.lomatko.organization;
 
-import com.collabothon.lomatko.event.VolunteerDto;
 import com.collabothon.lomatko.event.Event;
 import com.collabothon.lomatko.event.EventDto;
 import com.collabothon.lomatko.event.EventDtoMapper;
@@ -65,14 +64,13 @@ public class OrganizationController {
     @PostMapping(value = "/{organizationId}/{eventId}/confirm", consumes = MediaType.APPLICATION_JSON_VALUE)
     public HttpStatus confirmEvent (
             @PathVariable long organizationId,
-            @PathVariable long eventId,
-            @RequestBody List<VolunteerDto> participation) {
+            @PathVariable long eventId) {
         try {
-            service.confirmEvent(organizationId, eventId, participation);
+            service.confirmEvent(organizationId, eventId);
         } catch (Exception e) {
             return HttpStatus.BAD_REQUEST;
         }
-        return HttpStatus.OK;
+        return HttpStatus.NO_CONTENT;
     }
 
     @PostMapping(value = "/{organizationId}/event", consumes = MediaType.APPLICATION_JSON_VALUE)
