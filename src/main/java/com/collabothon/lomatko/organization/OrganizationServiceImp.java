@@ -7,7 +7,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -51,14 +50,14 @@ public class OrganizationServiceImp implements OrganizationService {
 
     @Transactional
     @Override
-    public void confirmEvent(Long organizationId, Long eventId, List<VolunteerDto> participation) {
+    public void confirmEvent(Long organizationId, Long eventId) {
         EventEntity event = eventRepository.findById(eventId).orElse(null);
         if (event == null) {
             throw new RuntimeException("Event entity cannot be null");
         }
 
-        confirmedParticipantsAndCompleteTheEvent(participation, event);
-        addCoinToParticipants(participation, event.getCoins());
+        confirmedParticipantsAndCompleteTheEvent(event);
+        addCoinToParticipants(event);
     }
 
     @Override
@@ -100,37 +99,13 @@ public class OrganizationServiceImp implements OrganizationService {
         return total;
     }
 
-    private void addCoinToParticipants(List<VolunteerDto> participation, int amount) {
-        for (VolunteerDto volunteer : participation) {
-            customerRepository.findById(volunteer.getId()).ifPresent(entityBeforeUpdate -> customerRepository.saveAndFlush(CustomerEntity.builder()
-                    .id(entityBeforeUpdate.getId())
-                    .name(entityBeforeUpdate.getName())
-                    .coins(entityBeforeUpdate.getCoins() + amount)
-                    .rewards(entityBeforeUpdate.getRewards())
-                    .events(entityBeforeUpdate.getEvents())
-                    .build()));
+    private void addCoinToParticipants(EventEntity event) {
+        for (CustomerEntity entity : event.getVolunteers()) {
+            customerRepository.saveAndFlush(entity.toBuilder().coins(entity.getCoins() + event.getCoins()).build());
         }
     }
 
-    private void confirmedParticipantsAndCompleteTheEvent(List<VolunteerDto> participants, EventEntity event) {
-        List<CustomerEntity> volunteers = new ArrayList<>();
-
-        for (VolunteerDto volunteerDto : participants) {
-            volunteers.add(customerRepository.findById(volunteerDto.getId()).orElse(null));
-        }
-
-        eventRepository.saveAndFlush(EventEntity.builder()
-                .id(event.getId())
-                .title(event.getTitle())
-                .description(event.getDescription())
-                .startDate(event.getStartDate())
-                .endDate(event.getEndDate())
-                .spots(event.getSpots())
-                .coins(event.getCoins())
-                .location(event.getLocation())
-                .status(EventStatus.COMPLETED)
-                .volunteers(volunteers)
-                .organization(event.getOrganization())
-                .build());
+    private void confirmedParticipantsAndCompleteTheEvent(EventEntity event) {
+        eventRepository.saveAndFlush(event.toBuilder().status(EventStatus.COMPLETED).build());
     }
 }

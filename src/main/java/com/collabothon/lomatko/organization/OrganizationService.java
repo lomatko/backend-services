@@ -1,7 +1,6 @@
 package com.collabothon.lomatko.organization;
 
 import com.collabothon.lomatko.event.Event;
-import com.collabothon.lomatko.event.VolunteerDto;
 
 import java.util.List;
 
@@ -16,7 +15,7 @@ public interface OrganizationService {
 
     void addEvent(Long organizationId, Event event);
 
-    void confirmEvent(Long organizationId, Long eventId, List<VolunteerDto> participation);
+    void confirmEvent(Long organizationId, Long eventId);
 
     List<Event> getEvents(Long id);
 
